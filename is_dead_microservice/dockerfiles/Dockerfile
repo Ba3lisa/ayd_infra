@@ -1,0 +1,29 @@
+FROM ubuntu:18.04
+
+# Classic update
+RUN apt-get -yqq update
+
+# Install pip
+RUN apt install python3-pip -y
+RUN python3 -m pip install --upgrade pip
+
+# Symlink python3 -> python
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Python requirements
+ADD ./dockerfiles/requirements.txt /
+RUN pip3 install -r /requirements.txt
+
+# Init working dir
+RUN mkdir /is_dead_microservice
+
+# ENV VARS
+ENV DJANGO_PORT=5000
+ENV WORKING_DIR=/is_dead_microservice
+
+# Init startup script
+COPY ./dockerfiles/startup.sh /usr/src/startup.sh
+ENV STARTUP_SH=/usr/src/startup.sh
+RUN chmod +x $STARTUP_SH
+
+CMD $STARTUP_SH

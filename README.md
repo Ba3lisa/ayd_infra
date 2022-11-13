@@ -8,4 +8,6 @@ Docker Compose version v2.12.2
 ```
 
 ## Installation steps
-
+1. Run `./update_images.sh`
+2. Run `docker-compose up`
+3. Start developing :)
