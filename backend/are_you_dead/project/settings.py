@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
+import mongoengine
+import os, sys
+from typing import List
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +28,7 @@ SECRET_KEY = 'django-insecure-c8s*q@$k+k-j66^oc!km)=7dh7ne6*hi40x=_r2grt69yg-zr8
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS: List[str] = []
 
 
 # Application definition
@@ -37,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app',
+    'rest_framework_mongoengine',
 ]
 
 MIDDLEWARE = [
@@ -73,12 +78,17 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+
+MONGO_USER = os.getenv('MONGO_USER', None)
+MONGO_PASS = os.getenv('MONGO_PASS', None)
+MONGO_HOST = os.getenv('MONGO_HOST', None)
+MONGO_NAME = os.getenv('MONGO_NAME', None)
+
+if not MONGO_USER or not MONGO_PASS or not MONGO_HOST or not MONGO_NAME:
+    raise Exception('Missing environment variables for MongoDB')
+
+MONGO_DATABASE_HOST = f'mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}/{MONGO_NAME}'
+mongoengine.connect(MONGO_NAME, host=MONGO_DATABASE_HOST)
 
 
 # Password validation

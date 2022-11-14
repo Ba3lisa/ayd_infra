@@ -1,10 +1,11 @@
 FROM ubuntu:18.04
 
-# Classic update
-RUN apt-get -yqq update
+# Build tools and essential libraries
+RUN apt-get update -yqq && apt-get install --yes --no-install-recommends build-essential \
+    python3-pip python3-dev
 
-# Install pip
-RUN apt install python3-pip -y
+# Upgrade pip
+RUN apt-get update -yqq && apt install python3-pip -y
 RUN python3 -m pip install --upgrade pip
 
 # Symlink python3 -> python
