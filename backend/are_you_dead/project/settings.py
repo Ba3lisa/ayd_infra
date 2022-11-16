@@ -11,9 +11,50 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import mongoengine
 import os, sys
 from typing import List
+import pymysql
+
+from configparser import ConfigParser
+
+import logging.config
+
+logger_file = f'{os.getenv("LOGGER_DIR", "/logs")}/backend.log'
+
+if not os.path.exists(logger_file):
+    with open(logger_file, 'w') as f:
+        pass
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(name)-12s %(levelname)-8s %(message)s'
+        },
+        'file': {
+            'format': '%(asctime)s %(name)-12s %(levelname)-8s %(message)s'
+        }
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console'
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'file',
+            'filename': logger_file
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['console', 'file']
+        }
+    }
+})
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -40,8 +81,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'app',
-    'rest_framework_mongoengine',
 ]
 
 MIDDLEWARE = [
@@ -74,22 +115,35 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'project.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 
-MONGO_USER = os.getenv('MONGO_USER', None)
-MONGO_PASS = os.getenv('MONGO_PASS', None)
-MONGO_HOST = os.getenv('MONGO_HOST', None)
-MONGO_NAME = os.getenv('MONGO_NAME', None)
+MYSQL_USER = os.getenv('MYSQL_USER', None)
+MYSQL_PASS = os.getenv('MYSQL_PASS', None)
+MYSQL_HOST = os.getenv('MYSQL_HOST', None)
+MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', None)
+MYSQL_PORT = os.getenv('MYSQL_PORT', None)
+MYSQL_TEST_HOST = os.getenv('MYSQL_TEST_HOST', None)
 
-if not MONGO_USER or not MONGO_PASS or not MONGO_HOST or not MONGO_NAME:
-    raise Exception('Missing environment variables for MongoDB')
+if not MYSQL_USER or not MYSQL_PASS or not MYSQL_HOST or not MYSQL_DATABASE or not MYSQL_PORT or not MYSQL_TEST_HOST:
+    raise Exception('Missing environment variables for SQL connection')
 
-MONGO_DATABASE_HOST = f'mongodb://{MONGO_USER}:{MONGO_PASS}@{MONGO_HOST}/{MONGO_NAME}'
-mongoengine.connect(MONGO_NAME, host=MONGO_DATABASE_HOST)
+pymysql.install_as_MySQLdb()
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': MYSQL_DATABASE,
+        'USER': MYSQL_USER,
+        'PASSWORD': MYSQL_PASS,
+        'HOST': MYSQL_HOST,
+        'PORT': MYSQL_PORT,
+        # 'TEST':{
+        #     'NAME': MYSQL_TEST_HOST,
+        # }
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
