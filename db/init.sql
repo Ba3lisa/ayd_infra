@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS sequence (
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES user (id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE IF NOT EXISTS hell(
@@ -27,6 +27,6 @@ CREATE TABLE IF NOT EXISTS hell(
     user_id INT NOT NULL,
     death_date DATETIME NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY (user_id) REFERENCES user (id)
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
