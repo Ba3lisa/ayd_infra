@@ -10,4 +10,5 @@ Docker Compose version v2.12.2
 ## Installation steps
 1. Run `./update_images.sh`
 2. Run `docker-compose up`
-3. Start developing :)
+3. To run dev bot first in another terminal run `docker exec -it dev-bot bash` then inside the container run `python main.py`
+4. Start Developing
