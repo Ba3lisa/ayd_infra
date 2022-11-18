@@ -15,16 +15,12 @@ import os, sys
 from typing import List
 import pymysql
 
-from configparser import ConfigParser
-
+###################### LOGGING CONFIGURATION ######################
 import logging.config
-
 logger_file = f'{os.getenv("LOGGER_DIR", "/logs")}/backend.log'
-
 if not os.path.exists(logger_file):
     with open(logger_file, 'w') as f:
         pass
-
 logging.config.dictConfig({
     'version': 1,
     'disable_existing_loggers': False,
@@ -55,6 +51,22 @@ logging.config.dictConfig({
         }
     }
 })
+##################################################################
+
+########################### ENV VARS ##############################
+# MYSQL env vars
+MYSQL_USER = os.getenv('MYSQL_USER', None)
+MYSQL_PASS = os.getenv('MYSQL_PASS', None)
+MYSQL_HOST = os.getenv('MYSQL_HOST', None)
+MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', None)
+MYSQL_PORT = os.getenv('MYSQL_PORT', None)
+MYSQL_TEST_HOST = os.getenv('MYSQL_TEST_HOST', None)
+
+if not MYSQL_USER or not MYSQL_PASS or not MYSQL_HOST or not MYSQL_DATABASE or not MYSQL_PORT or not MYSQL_TEST_HOST:
+    raise Exception('Missing environment variables for SQL connection')
+
+##################################################################
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -117,18 +129,6 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-
-MYSQL_USER = os.getenv('MYSQL_USER', None)
-MYSQL_PASS = os.getenv('MYSQL_PASS', None)
-MYSQL_HOST = os.getenv('MYSQL_HOST', None)
-MYSQL_DATABASE = os.getenv('MYSQL_DATABASE', None)
-MYSQL_PORT = os.getenv('MYSQL_PORT', None)
-MYSQL_TEST_HOST = os.getenv('MYSQL_TEST_HOST', None)
-
-if not MYSQL_USER or not MYSQL_PASS or not MYSQL_HOST or not MYSQL_DATABASE or not MYSQL_PORT or not MYSQL_TEST_HOST:
-    raise Exception('Missing environment variables for SQL connection')
-
 pymysql.install_as_MySQLdb()
 
 DATABASES = {

@@ -1,9 +1,11 @@
-version: "3.8"
+version: "3"
 services:
   database:
     image: mysql:5.7
     container_name: database
     network_mode: "host"
+    ports:
+      - "3306:3306"
     command: --init-file /data/application/init.sql
     volumes:
         - ./db/init.sql:/data/application/init.sql
@@ -22,17 +24,25 @@ services:
     image: essamgouda97/ayd_backend
     container_name: backend
     network_mode: "host"
+    ports:
+      - "8000:8000"
     depends_on:
       database:
         condition: service_healthy
-    environment:
-      - MYSQL_HOST=127.0.0.1
-      - MYSQL_PORT=3306
-      - MYSQL_DATABASE=life
-      - MYSQL_USER=user
-      - MYSQL_PASS=user
-      - MYSQL_TEST_HOST=test_life
+    env_file:
+      - .env
     volumes:
       - ./backend/are_you_dead:/backend
       - ./logs:/logs
-
+  
+  dev-bot:
+    image: essamgouda97/ayd_cj
+    container_name: dev-bot
+    network_mode: "host"
+    working_dir: /bot
+    depends_on:
+      backend:
+        condition: service_started
+    volumes:
+      - ./CJ:/bot
+      - ./logs:/logs
