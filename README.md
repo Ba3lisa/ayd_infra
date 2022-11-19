@@ -12,3 +12,6 @@ Docker Compose version v2.12.2
 2. Run `docker-compose up`
 3. To run dev bot first in another terminal run `docker exec -it dev-bot bash` then inside the container run `python main.py`
 4. Start Developing
+
+## Troubleshoot
+- Because we are developing on docker's default user (root), permissions might be messed up so to reset permissions run `sudo chown -R $(id -u):$(id -g) ./*`
