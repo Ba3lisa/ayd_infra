@@ -13,5 +13,10 @@ Docker Compose version v2.12.2
 3. To run dev bot first in another terminal run `docker exec -it dev-bot bash` then inside the container run `python main.py`
 4. Start Developing
 
+## Docker commands
+- To build a new image `docker build -t {IMAGE_NAME} -f {DOCKERFILE_PATH} .` e.x `docker build -t essamgouda97/ayd_backend dockerfiles/Dockerfile .`
+- To run docker compose: `docker-compose up`
+- To stop docker compose: `docker-compose down --remove-orphans --volumes`
+
 ## Troubleshoot
 - Because we are developing on docker's default user (root), permissions might be messed up so to reset permissions run `sudo chown -R $(id -u):$(id -g) ./*`
