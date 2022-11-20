@@ -13,6 +13,13 @@ Docker Compose version v2.12.2
 
 Run `git clone --recurse-submodules git@github.com:essamgouda97/ayd_infra`
 
+## Developer Guide
+
+- Use `docker-compose` dev env
+- Open vscode inside docker container for dev
+- Example you are working on `ayd_backend` container.
+- When you want to push your changes go to `submodules/ayd_backend` and commit then push from here.
+
 ## Installation steps
 
 1. Run `./update_images.sh`
