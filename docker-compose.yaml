@@ -4,8 +4,6 @@ services:
     image: mysql:5.7
     container_name: database
     network_mode: "host"
-    ports:
-      - "3306:3306"
     command: --init-file /data/application/init.sql
     volumes:
         - ./db/init.sql:/data/application/init.sql
@@ -24,8 +22,6 @@ services:
     image: essamgouda97/ayd_backend
     container_name: backend
     network_mode: "host"
-    ports:
-      - "8000:8000"
     depends_on:
       database:
         condition: service_healthy
