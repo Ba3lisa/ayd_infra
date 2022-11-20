@@ -9,6 +9,10 @@
 Docker Compose version v2.12.2
 ```
 
+## Clone
+
+Run `git clone --recurse-submodules git@github.com:essamgouda97/ayd_infra`
+
 ## Installation steps
 
 1. Run `./update_images.sh`
