@@ -28,7 +28,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./backend/are_you_dead:/backend
+      - ./submodules/ayd_backend:/backend
       - ./logs:/logs
   
   dev-bot:
@@ -40,5 +40,5 @@ services:
       backend:
         condition: service_started
     volumes:
-      - ./CJ:/bot
+      - ./submodules/ayd_cj:/bot
       - ./logs:/logs

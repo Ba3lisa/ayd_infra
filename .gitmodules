@@ -1,0 +1,12 @@
+[submodule "submodules/ayd_backend"]
+	path = submodules/ayd_backend
+	url = git@github.com:essamgouda97/ayd_backend
+[submodule "submodules/ayd_cj"]
+	path = submodules/ayd_cj
+	url = git@github.com:essamgouda97/ayd_cj
+[submodule "submodules/ayd_is_dead_ms"]
+	path = submodules/ayd_is_dead_ms
+	url = git@github.com:essamgouda97/ayd_is_dead_ms
+[submodule "submodules/ayd_sequence_runner_ms"]
+	path = submodules/ayd_sequence_runner_ms
+	url = git@github.com:essamgouda97/ayd_sequence_runner_ms
