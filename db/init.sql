@@ -10,12 +10,14 @@ CREATE TABLE IF NOT EXISTS user (
     PRIMARY KEY (id)
 );
 
+INSERT INTO user (username, password, email, created_at, updated_at) VALUES ('admin', 'admin', 'admin@localhost', NOW(), NOW());
+
 CREATE TABLE IF NOT EXISTS sequence (
     id INT NOT NULL AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     user_id INT NOT NULL,
     iffft_key VARCHAR(255) NOT NULL,
-    iffft_event VARCHAR(255) NOT NULL,
+    iffft_channel_name VARCHAR(255) NOT NULL,
     created_at DATETIME NOT NULL,
     updated_at DATETIME NOT NULL,
     PRIMARY KEY (id),
